@@ -18,10 +18,11 @@ alias pacman="pacman --noconfirm"
 
 ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 hwclock --systohc
-locale-gen
 
 echo "LANG=it_IT.UTF-8" >> /etc/locale.conf
 echo "KEYMAP=it" >> /etc/vconsole.conf
+
+locale-gen
 
 machine="ArchLinux"
 echo "$machine" >> /etc/hostname

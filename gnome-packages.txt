@@ -1,5 +1,0 @@
-xorg-server
-xorg-init
-xorg-twm
-xorg-xclock
-gnome

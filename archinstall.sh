@@ -32,6 +32,7 @@ echo "Using $disk"
 
 parted -s "$disk" -- mklabel gpt
 parted -s "$disk" -- mkpart primary fat32 0 512MiB
+parted -s "$disk" -- set 1 esp on
 parted -s "$disk" -- mkpart primary linux-swap 512MiB 2560MiB
 parted -s "$disk" -- mkpart primary ext4 2560MiB 100%
 
@@ -42,6 +43,9 @@ efi_part=$(printf "%s1" "$disk")
 mkfs.fat -F32 "$efi_part"
 mkfs.ext4 "$root_part"
 mkswap "$swap_part"
+
+mkdir /boot/efi
+mount "$efi_part" /boot/efi
 
 mount "$root_part" /mnt
 swapon "$swap_part"

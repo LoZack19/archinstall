@@ -34,14 +34,13 @@ printf "${bold}${green}Input root password...${reset}\n"
 passwd
 
 pacman -S grub efibootmgr
-mkdir /boot/efi
-mount "$efi_part" /boot/efi
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "INSTALLATION TERMINATED"
 
 pacman -S networkmanager
+sudo systemctl enable NetworkManager.service
 
 printf "Input username [Default user]: "
 read username
@@ -51,12 +50,13 @@ useradd -m -G wheel -s /bin/bash "$username"
 printf "${bold}${green}Input user password...${reset}\n"
 passwd "$username"
 
-pacman -S vim nano sudo
+pacman -S vim nano
 echo '%wheel ALL=(ALL) ALL' | EDITOR='tee -a' visudo
 
 mv /root/after_reboot.sh "/home/$username/.bashrc"
 
 pacman -S gnome gnome-extra xorg gdm
+sudo systemctl enable gdm
 if [ $? != 0 ]
 then
     echo "${bold}${red} Failed to install desktop enviroment. Please do this manually!${reset}"

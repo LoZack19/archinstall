@@ -47,8 +47,8 @@ mkswap "$swap_part"
 mount "$root_part" /mnt
 swapon "$swap_part"
 
-mkdir /mnt/boot/efi
-mount "$efi_part" /boot/efi
+mkdir -p /mnt/boot/efi
+mount "$efi_part" /mnt/boot/efi
 
 pacstrap /mnt base base-devel linux linux-firmware
 genfstab -U /mnt > /mnt/etc/fstab

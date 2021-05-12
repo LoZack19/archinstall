@@ -44,11 +44,11 @@ mkfs.fat -F32 "$efi_part"
 mkfs.ext4 "$root_part"
 mkswap "$swap_part"
 
-mkdir /boot/efi
-mount "$efi_part" /boot/efi
-
 mount "$root_part" /mnt
 swapon "$swap_part"
+
+mkdir /mnt/boot/efi
+mount "$efi_part" /boot/efi
 
 pacstrap /mnt base base-devel linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab

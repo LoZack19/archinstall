@@ -51,7 +51,7 @@ mkdir /mnt/boot/efi
 mount "$efi_part" /boot/efi
 
 pacstrap /mnt base base-devel linux linux-firmware
-genfstab -U /mnt >> /mnt/etc/fstab
+genfstab -U /mnt > /mnt/etc/fstab
 
 echo "END PART ONE"
 

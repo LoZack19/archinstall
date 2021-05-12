@@ -14,7 +14,7 @@ bold="\e[1m"
 uline="\e[4m"
 reset="\e[0m"
 
-alias pacman="pacman --noconfirm"
+pm="pacman --noconfirm"
 
 ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
 hwclock --systohc
@@ -33,13 +33,12 @@ printf "127.0.0.1\tlocalhost\n::1\t\tlocalhost\n127.0.1.1\t$machine.localdomain\
 printf "${bold}${green}Input root password...${reset}\n"
 passwd
 
-pacman -S grub efibootmgr
+$pm -S grub efibootmgr networkmanager
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo "INSTALLATION TERMINATED"
 
-pacman -S networkmanager
 sudo systemctl enable NetworkManager.service
 
 printf "Input username [Default user]: "
@@ -55,7 +54,7 @@ echo '%wheel ALL=(ALL) ALL' | EDITOR='tee -a' visudo
 
 mv /root/after_reboot.sh "/home/$username/.bashrc"
 
-pacman -S gnome gnome-extra xorg gdm
+$pm -S gnome gnome-extra xorg gdm
 sudo systemctl enable gdm
 if [ $? != 0 ]
 then

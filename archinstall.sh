@@ -74,7 +74,6 @@ cp /etc/resolv.conf etc/resolv.conf
 install -Dm 766 ~/archinstall/part2.sh /mnt/root/part2.sh
 install -Dm 766 ~/archinstall/after_reboot.sh /mnt/root/after_reboot.sh
 install -Dm 766 ~/archinstall/.bashrc /mnt/root/.bashrc
-cp ~/archinstall/gnome-packages.txt /mnt/root
 
 # Calls the second script in chroot
 efi_part="$efi_part" chroot /mnt /bin/bash /root/part2.sh

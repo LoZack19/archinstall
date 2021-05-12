@@ -32,6 +32,7 @@ echo "Using $disk"
 
 parted -s "$disk" -- mklabel gpt
 parted -s "$disk" -- mkpart primary fat32 0 512MiB
+parted -s "$disk" -- set 1 esp on
 parted -s "$disk" -- mkpart primary linux-swap 512MiB 2560MiB
 parted -s "$disk" -- mkpart primary ext4 2560MiB 100%
 
@@ -46,8 +47,11 @@ mkswap "$swap_part"
 mount "$root_part" /mnt
 swapon "$swap_part"
 
+mkdir -p /mnt/boot/efi
+mount "$efi_part" /mnt/boot/efi
+
 pacstrap /mnt base base-devel linux linux-firmware
-genfstab -U /mnt >> /mnt/etc/fstab
+genfstab -U /mnt > /mnt/etc/fstab
 
 echo "END PART ONE"
 
@@ -70,7 +74,6 @@ cp /etc/resolv.conf etc/resolv.conf
 install -Dm 766 ~/archinstall/part2.sh /mnt/root/part2.sh
 install -Dm 766 ~/archinstall/after_reboot.sh /mnt/root/after_reboot.sh
 install -Dm 766 ~/archinstall/.bashrc /mnt/root/.bashrc
-cp ~/archinstall/gnome-packages.txt /mnt/root
 
 # Calls the second script in chroot
 efi_part="$efi_part" chroot /mnt /bin/bash /root/part2.sh
